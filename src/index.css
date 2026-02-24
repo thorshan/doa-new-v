@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  /* This automatically creates classes like bg-primary, text-secondary, etc. */
+  --color-background: var(--bg-default);
+  --color-surface: var(--bg-surface);
+  --color-text: var(--text-main);
+  --color-primary: var(--brand-primary);
+  --color-secondary: var(--brand-secondary);
+  --color-border: var(--line-border);
+  --color-inverted: var(--text-inverted);
+  --color-error: var(--text-error);
+}
+
+:root {
+  --bg-default: #f9fafb;
+  --bg-surface: #f9fafb;
+  --text-main: #081d2a;
+  --brand-primary: #047e4b;
+  --brand-secondary: #16c47f;
+  --line-border: #f9fafb;
+  --text-inverted: #f9fafb;
+  --text-error: #cc002c;
+}
+
+.dark {
+  --bg-default: #081d2a;
+  --bg-surface: #081d2a;
+  --text-main: #f9fafb;
+  --brand-primary: #16c47f;
+  --brand-secondary: #7ed4ad;
+  --line-border: #081d2a;
+  --text-inverted: #f9fafb;
+  --text-error: #ff5277;
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
+@layer base {
+  @import "@fontsource/noto-sans"; /* Latin */
+  @import "@fontsource/noto-sans-jp"; /* Japanese */
+  @import "@fontsource/noto-sans-myanmar"; /* Burmese */
+
+  html {
+    font-family: "Noto Sans", "Noto Sans JP", "Noto Sans Myanmar", sans-serif;
+    font-size: clamp(15px, 0.25vw + 14px, 17px);
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Specific fix for Burmese rendering */
+  :lang(mm) {
+    line-height: 1.8;
+  }
+  body {
+    background-color: var(--bg-default);
+    color: var(--text-main);
+    @apply transition-colors duration-200;
+  }
+
+  @media (max-width: 767px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px;
+    }
+  }
+}
