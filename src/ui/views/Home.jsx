@@ -327,7 +327,7 @@ const GetStarted = () => {
                       className="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-text hover:bg-primary/10 hover:text-primary transition-colors"
                     >
                       <LayoutDashboard size={16} />{" "}
-                      {translations[language].dashboard || "Dashboard"}
+                      {translations[language].dashboard}
                     </Link>
                     {user?.role === ROLES.ADMIN && (
                       <Link
@@ -353,7 +353,7 @@ const GetStarted = () => {
             className="md:hidden p-2 text-text"
             onClick={() => setDrawerOpen(true)}
           >
-            <Menu size={32} />
+            <Menu size={24} />
           </button>
         </nav>
       </header>
@@ -399,14 +399,16 @@ const GetStarted = () => {
               ) : (
                 <div className="grid grid-cols-2 gap-3">
                   <Link
-                    to="/login"
+                    to="/coming-soon"
+                    // to="/login"
                     onClick={() => setDrawerOpen(false)}
                     className="py-3 text-center text-xs font-black border border-border rounded-xl text-text hover:bg-surface transition-colors"
                   >
                     {translations[language].login}
                   </Link>
                   <Link
-                    to="/register"
+                    to="/coming-soon"
+                    // to="/register"
                     onClick={() => setDrawerOpen(false)}
                     className="py-3 text-center text-xs font-black bg-primary text-inverted rounded-xl hover:opacity-90 transition-opacity"
                   >
@@ -418,7 +420,7 @@ const GetStarted = () => {
             {/* Navigation Links */}
             <div className="flex-1 overflow-y-auto p-6 space-y-2">
               <p className="text-xs font-black text-text/30 tracking-[0.2em] mb-4 uppercase">
-                Menu
+                {translations[language].menu || "Menu"}
               </p>
               {navLinks.map((nav, i) => (
                 <button
@@ -436,7 +438,7 @@ const GetStarted = () => {
                   onClick={() => setDrawerOpen(false)}
                   className="w-full text-left py-4 text-xl sm:text-2xl font-black text-text flex justify-between items-center tracking-tighter hover:text-primary transition-colors"
                 >
-                  {translations[language].dashboard || "Dashbaord"}{" "}
+                  {translations[language].dashboard}{" "}
                   <LayoutDashboard size={20} className="text-text/20" />
                 </Link>
               )}
@@ -452,22 +454,53 @@ const GetStarted = () => {
               )}
             </div>
             {/* Settings & Socials */}
+            {/* Settings, Socials & Logout in Drawer */}
             <div className="p-6 border-t border-border space-y-6 bg-background/50">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <LanguageToggler />
-                </div>
+              {/* SETTINGS VERTICAL STACK */}
+              <div className="flex flex-col gap-3">
+                <p className="text-[10px] font-black text-text/30 tracking-[0.2em] uppercase px-1">
+                  {translations[language].settings}
+                </p>
+
+                {/* 1. Language Toggler */}
+                <LanguageToggler isInDrawer={true} />
+
+                {/* 2. Theme Selector */}
                 <button
                   onClick={toggleTheme}
-                  className="flex items-center gap-3 px-4 py-2 bg-surface border border-border rounded-xl text-primary font-bold text-xs shadow-sm active:scale-95 transition-all"
+                  className="w-full flex items-center justify-between px-5 h-14 bg-surface border border-border rounded-2xl text-text font-bold active:scale-[0.98] transition-all"
                 >
-                  {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-                  <span className="text-text">
-                    {theme === "dark" ? "Light" : "Dark"} mode
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-background rounded-lg text-primary">
+                      {theme === "dark" ? (
+                        <Sun size={20} />
+                      ) : (
+                        <Moon size={20} />
+                      )}
+                    </div>
+                    <div className="flex flex-col items-start">
+                      <span className="text-[10px] font-black tracking-widest uppercase text-text/40 leading-none mb-1">
+                        {translations[language].appearance || "Appearance"}
+                      </span>
+                      <span className="text-sm">
+                        {theme === "dark"
+                          ? translations[language].light
+                          : translations[language].dark}
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    className={`w-10 h-5 rounded-full relative transition-colors duration-300 ${theme === "dark" ? "bg-primary" : "bg-text/10"}`}
+                  >
+                    <div
+                      className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all duration-300 ${theme === "dark" ? "left-6" : "left-1"}`}
+                    />
+                  </div>
                 </button>
               </div>
-              <div className="flex justify-around items-center pt-2">
+
+              {/* SOCIALS GRID */}
+              <div className="grid grid-cols-3 gap-3">
                 {socials.map((s, i) => {
                   const Icon = s.icon;
                   return (
@@ -476,20 +509,27 @@ const GetStarted = () => {
                       href={s.path}
                       target="_blank"
                       rel="noreferrer"
-                      className="p-3 text-text/40 hover:text-primary hover:scale-125 transition-all"
+                      className="flex items-center justify-center h-12 bg-surface border border-border rounded-xl text-text/40 hover:text-primary transition-colors"
                     >
-                      <Icon size={22} />
+                      <Icon size={20} />
                     </a>
                   );
                 })}
               </div>
+
+              {/* 3. LOGOUT - THE MISSING PIECE */}
               {isAuthenticated && (
-                <button
-                  onClick={handleLogout}
-                  className="w-full flex items-center justify-center gap-3 p-4 font-black text-error bg-error/5 rounded-2xl hover:bg-error/10 transition-colors border border-error/10"
-                >
-                  <LogOut size={18} /> {translations[language].logout}
-                </button>
+                <div className="pt-2">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center justify-center gap-3 h-14 font-black text-error bg-error/5 rounded-2xl hover:bg-error/10 active:scale-[0.98] transition-all border border-error/10"
+                  >
+                    <LogOut size={18} />
+                    <span className="uppercase tracking-widest text-xs">
+                      {translations[language].logout}
+                    </span>
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -500,18 +540,19 @@ const GetStarted = () => {
       <section className="relative min-h-[100svh] px-4 sm:px-6 md:px-20 pt-24 pb-12 flex items-center">
         <div className="z-10 w-full md:w-2/3">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-text leading-tight">
-            Upgrade your japanese
+            Upgrade Your Japanese
           </h1>
           <div className="mt-4 text-primary text-[4rem] md:text-[7rem] font-black leading-[0.95] min-h-[1.2em] tracking-tighter">
             <TypewriterSkill skills={skills} />
           </div>
           <button
-            onClick={() =>
-              navigate(isAuthenticated ? "/dashboard" : "/register")
-            }
+            onClick={() => navigate("/coming-soon")}
+            // onClick={() =>
+            //   navigate(isAuthenticated ? "/dashboard" : "/register")
+            // }
             className="mt-10 px-5 py-3 sm:px-6 sm:py-3.5 bg-primary text-inverted font-black text-base md:text-lg rounded-4xl shadow-2xl hover:-translate-y-1 transition-all active:scale-95 shadow-primary/30 tracking-widest"
           >
-            Get started
+            {translations[language].get_started}
           </button>
         </div>
         <div className="absolute top-0 right-0 w-full h-full opacity-10 md:opacity-30 pointer-events-none">

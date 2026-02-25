@@ -1,5 +1,11 @@
 export const translations = {
   en: {
+    dashboard: "Dashboard",
+    console: "Admin Console",
+    menu: "Menu",
+    light: "Light Mode",
+    dark: "Dark Mode",
+    appearance: "Appearance",
     how_to_use:
       "Simply create an account to track your progress. Choose a level (like N5 or N4), then study through interactive chapters including speaking, grammar, and exercises. Finish each chapter by passing the exam to unlock the next one.",
     about_doa:
@@ -166,6 +172,12 @@ export const translations = {
     failed_text: "Failed the test. Try again!",
   },
   mm: {
+    dashboard: "ဒတ်ရှ်ဘုတ်",
+    console: "စီမံခန့်ခွဲသူ နေရာ",
+    menu: "မီနူး",
+    light: "အလင်းစနစ်",
+    dark: "အမှောင်စနစ်",
+    appearance: "အပြင်အဆင်",
     how_to_use:
       "အကောင့်တစ်ခုပြုလုပ်ပြီး သင်ယူမှုကို စတင်နိုင်ပါသည်။ မိမိလေ့လာလိုသော Level (N5, N4 စသည်) ကို ရွေးချယ်ပြီး စကားပြော၊ သဒ္ဒါ နှင့် လေ့ကျင့်ခန်းများကို လေ့လာပါ။ အခန်းတစ်ခုချင်းစီ၏ စာမေးပွဲကို အောင်မြင်ပါက နောက်အခန်းများကို ဆက်လက်လေ့လာနိုင်မည်ဖြစ်သည်။",
     about_doa:
@@ -336,6 +348,11 @@ export const translations = {
     failed_text: "စစ်ဆေးမှုကို မအောင်မြင်ပါ။ \nပြန်လည်ကြိုးစားကြည့်ပါ။",
   },
   jp: {
+    console: "管理コンソール",
+    menu: "メニュー",
+    light: "ライトモード",
+    dark: "ダークモード",
+    appearance: "外観",
     how_to_use:
       "まずはアカウントを作成して進捗を記録しましょう。レベル（N5やN4など）を選択し、スピーキング、文法、練習問題などのチャプターを進めます。最後にテストに合格すると、次のチャプターが解放されます。",
     about_doa:

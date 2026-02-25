@@ -9,7 +9,7 @@ const LANGUAGES = [
   { code: "jp", label: "日本語", flag: "🇯🇵", font: "font-jp" },
 ];
 
-const LanguageToggler = () => {
+const LanguageToggler = ({ isInDrawer = false }) => {
   const { language, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -20,16 +20,73 @@ const LanguageToggler = () => {
         setIsOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
+    if (!isInDrawer) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [isInDrawer]);
 
   const currentLang =
     LANGUAGES.find((l) => l.code === language) || LANGUAGES[0];
 
+  // --- MOBILE DRAWER VERSION ---
+  if (isInDrawer) {
+    return (
+      <div className="w-full">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center justify-between w-full h-14 px-5 bg-surface border border-border rounded-2xl active:scale-[0.98] transition-all"
+        >
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-background rounded-lg text-primary">
+              <Languages size={20} />
+            </div>
+            <div className="flex flex-col items-start text-left">
+              <span className="text-[10px] font-black tracking-widest uppercase text-text/40 leading-none mb-1">
+                {translations[language].language || "Language"}
+              </span>
+              <span
+                className={`text-sm font-bold text-text ${currentLang.font}`}
+              >
+                {currentLang.label}
+              </span>
+            </div>
+          </div>
+          <ChevronDown
+            size={18}
+            className={`text-text/30 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+          />
+        </button>
+
+        <div
+          className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-64 mt-2 opacity-100" : "max-h-0 opacity-0"}`}
+        >
+          <div className="bg-surface/50 border border-border/50 rounded-2xl divide-y divide-border/10">
+            {LANGUAGES.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => {
+                  setLanguage(lang.code);
+                  setIsOpen(false);
+                }}
+                className={`w-full flex items-center justify-between px-6 py-4 text-sm font-bold ${language === lang.code ? "text-primary bg-primary/5" : "text-text/70"} ${lang.font}`}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-xl">{lang.flag}</span>
+                  <span>{lang.label}</span>
+                </div>
+                {language === lang.code && <Check size={16} />}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // --- DESKTOP VERSION (Left Unchanged) ---
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-primary/10 transition-all border border-transparent hover:border-primary/20 group"
@@ -43,19 +100,12 @@ const LanguageToggler = () => {
         </span>
         <ChevronDown
           size={14}
-          className={`text-text/30 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+          className={`text-text/30 transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
 
-      {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-3 w-48 bg-surface border border-border rounded-2xl shadow-2xl py-2 z-[2000] animate-in fade-in zoom-in-95 duration-200">
-          <div className="px-4 py-2 mb-1">
-            <p className="text-[14px] font-black text-text/30">
-              {translations[language].select_translation || "Select Language"}
-            </p>
-          </div>
-
+        <div className="absolute right-0 mt-3 w-48 bg-surface border border-border rounded-2xl shadow-2xl py-2 z-[2000] animate-in fade-in zoom-in-95">
           {LANGUAGES.map((lang) => (
             <button
               key={lang.code}
@@ -63,17 +113,11 @@ const LanguageToggler = () => {
                 setLanguage(lang.code);
                 setIsOpen(false);
               }}
-              className={`w-full flex items-center justify-between px-4 py-3 text-sm font-bold transition-colors ${
-                language === lang.code
-                  ? "bg-primary/10 text-primary"
-                  : "text-text hover:bg-primary/5"
-              } ${lang.font}`} // Apply regional font classes
+              className={`w-full flex items-center justify-between px-4 py-3 text-sm font-bold ${language === lang.code ? "bg-primary/10 text-primary" : "text-text hover:bg-primary/5"} ${lang.font}`}
             >
               <div className="flex items-center gap-3">
-                <span className="text-lg leading-none">{lang.flag}</span>
-                <span className={lang.code === "mm" ? "leading-relaxed" : ""}>
-                  {lang.label}
-                </span>
+                <span className="text-lg">{lang.flag}</span>
+                <span>{lang.label}</span>
               </div>
               {language === lang.code && <Check size={16} />}
             </button>
