@@ -23,8 +23,6 @@ import { useAuth } from "../../hooks/useAuth";
 import LanguageToggler from "../components/LangToggler";
 import { useLanguage } from "../../hooks/useLanguage";
 import { translations } from "../../constants/translations";
-import HeroBackground from "../components/HeroBackground";
-import ParticleBackground from "../components/ParticleBackground";
 
 // --- 1. TYPEWRITER EFFECT COMPONENT ---
 const TypewriterSkill = ({ skills }) => {
