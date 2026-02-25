@@ -1,6 +1,11 @@
 export const translations = {
   en: {
-    
+    how_to_use:
+      "Simply create an account to track your progress. Choose a level (like N5 or N4), then study through interactive chapters including speaking, grammar, and exercises. Finish each chapter by passing the exam to unlock the next one.",
+    about_doa:
+      "DOA is a volunteer-driven platform dedicated to Japanese language learners. It is absolutely FREE and provides comprehensive resources including structured courses, grammar guides, speaking dialogues, and mock exams to help you master the language.",
+    application_txt:
+      "Take your learning on the go! In addition to the website, we offer mobile applications that feature the same high-quality content, offline audio, and real-time progress syncing across all your devices.",
     confirm_logout: "Are you sure want to logout?",
     theme: "Theme",
     language: "Language",
@@ -158,9 +163,15 @@ export const translations = {
     grammar_explain: "Grammar Explanation",
     point: "Point",
     passed_text: "Excellent work! You passed the test",
-    failed_text: "Failed the test. Try again!"
+    failed_text: "Failed the test. Try again!",
   },
   mm: {
+    how_to_use:
+      "အကောင့်တစ်ခုပြုလုပ်ပြီး သင်ယူမှုကို စတင်နိုင်ပါသည်။ မိမိလေ့လာလိုသော Level (N5, N4 စသည်) ကို ရွေးချယ်ပြီး စကားပြော၊ သဒ္ဒါ နှင့် လေ့ကျင့်ခန်းများကို လေ့လာပါ။ အခန်းတစ်ခုချင်းစီ၏ စာမေးပွဲကို အောင်မြင်ပါက နောက်အခန်းများကို ဆက်လက်လေ့လာနိုင်မည်ဖြစ်သည်။",
+    about_doa:
+      "DOA သည် ဂျပန်စာလေ့လာသူများအတွက် စေတနာ့ဝန်ထမ်းများမှ ဖန်တီးထားသော Platform တစ်ခုဖြစ်သည်။ လုံးဝ အခမဲ့ ဖြစ်ပြီး စနစ်တကျ ပြုစုထားသော သင်ခန်းစာများ၊ သဒ္ဒါ၊ စကားပြော နှင့် စာမေးပွဲများကို စုံလင်စွာ လေ့လာနိုင်ပါသည်။",
+    application_txt:
+      "ဝဘ်ဆိုက်အပြင် ဖုန်းဖြင့်ပါ အလွယ်တကူ လေ့လာနိုင်ရန် Mobile App များလည်း ရှိပါသည်။ သင်ခန်းစာများ၊ အသံဖိုင်များ နှင့် သင်ယူမှုမှတ်တမ်းများအားလုံးကို Device အားလုံးတွင် အတူတူပင် အသုံးပြုနိုင်ပါသည်။",
     processing: "ဆောင်ရွက်နေသည် ...",
     confirm_logout: "သင်သည် အကောင့်မှ ထွက်မှာ သေချာပါသလား။",
     theme: "အပြင်အဆင်",
@@ -320,10 +331,17 @@ export const translations = {
     kunyomi: "Kunyomi",
     grammar_explain: "သဒ္ဒါရှင်းလင်းချက်",
     point: "အချက်",
-    passed_text: "ထူးချွန်စွာ လုပ်ဆောင်နိုင်ခဲ့ပါတယ်! \nသင် အခန်းစစ်ဆေးမှုကို အောင်မြင်သွားပါပြီ။",
+    passed_text:
+      "ထူးချွန်စွာ လုပ်ဆောင်နိုင်ခဲ့ပါတယ်! \nသင် အခန်းစစ်ဆေးမှုကို အောင်မြင်သွားပါပြီ။",
     failed_text: "စစ်ဆေးမှုကို မအောင်မြင်ပါ။ \nပြန်လည်ကြိုးစားကြည့်ပါ။",
   },
   jp: {
+    how_to_use:
+      "まずはアカウントを作成して進捗を記録しましょう。レベル（N5やN4など）を選択し、スピーキング、文法、練習問題などのチャプターを進めます。最後にテストに合格すると、次のチャプターが解放されます。",
+    about_doa:
+      "DOAは、日本語学習者のためのボランティア運営プラットフォームです。完全無料で、体系的なコース、文法解説、スピーキング練習、模擬試験など、日本語習得に必要なあらゆるリソースを提供しています。",
+    application_txt:
+      "どこでも学習を続けましょう！ウェブサイトだけでなく、モバイルアプリも提供しています。同じ高品質なコンテンツ、オフライン音声、デバイス間のリアルタイム進捗同期が利用可能です。",
     processing: "処理中 ...",
     confirm_logout: "ログアウトしてもよろしいですか？",
     theme: "テーマ",

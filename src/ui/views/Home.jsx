@@ -23,6 +23,8 @@ import { useAuth } from "../../hooks/useAuth";
 import LanguageToggler from "../components/LangToggler";
 import { useLanguage } from "../../hooks/useLanguage";
 import { translations } from "../../constants/translations";
+import HeroBackground from "../components/HeroBackground";
+import ParticleBackground from "../components/ParticleBackground";
 
 // --- 1. TYPEWRITER EFFECT COMPONENT ---
 const TypewriterSkill = ({ skills }) => {
@@ -50,7 +52,7 @@ const TypewriterSkill = ({ skills }) => {
   }, [subIndex, index, reverse, skills]);
 
   return (
-    <span className="italic min-h-[1.2em]">
+    <span className="min-h-[1.2em]">
       {skills[index].substring(0, subIndex)}
       <span className="animate-pulse border-r-4 border-primary ml-1" />
     </span>
@@ -61,7 +63,6 @@ const TypewriterSkill = ({ skills }) => {
 const useScrollReveal = (threshold = 0.15) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -72,14 +73,12 @@ const useScrollReveal = (threshold = 0.15) => {
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [threshold]);
-
   return [ref, isVisible];
 };
 
 // --- 3. ANIMATED SECTION COMPONENT ---
 const AnimatedSection = ({ section, navigate, t, lang }) => {
   const [ref, isVisible] = useScrollReveal();
-
   return (
     <section
       ref={ref}
@@ -90,7 +89,7 @@ const AnimatedSection = ({ section, navigate, t, lang }) => {
         className={`flex items-center gap-6 mb-24 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
       >
         <div
-          className={`h-px flex-1 bg-border origin-left transition-transform duration-1000 delay-300 ${isVisible ? "scale-x-100" : "scale-x-0"}`}
+          className={`h-px flex-1 bg-text/30 origin-left transition-transform duration-1000 delay-300 ${isVisible ? "scale-x-100" : "scale-x-0"}`}
         />
         <h1
           className={`text-base sm:text-lg md:text-xl font-bold ${section.color}`}
@@ -98,25 +97,20 @@ const AnimatedSection = ({ section, navigate, t, lang }) => {
           {section.title}
         </h1>
         <div
-          className={`h-px flex-1 bg-border origin-right transition-transform duration-1000 delay-300 ${isVisible ? "scale-x-100" : "scale-x-0"}`}
+          className={`h-px flex-1 bg-text/30 origin-right transition-transform duration-1000 delay-300 ${isVisible ? "scale-x-100" : "scale-x-0"}`}
         />
       </div>
-
       <div className="relative flex flex-col md:flex-row items-center gap-12">
         <div
           className={`z-10 flex-1 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"}`}
         >
-          <h5 className="text-3xl sm:text-4xl md:text-6xl font-black text-text mb-6 leading-none tracking-tighter">
+          <h6 className="text-2xl sm:text-2xl md:text-3xl font-black text-primary mb-6 leading-none tracking-tighter">
             {section.sub}
-          </h5>
+          </h6>
           <p
             className={`text-text/60 text-sm sm:text-base md:text-lg leading-relaxed font-medium max-w-xl mb-10 ${lang === "mm" ? "leading-loose" : ""}`}
           >
-            {lang === "jp"
-              ? "「ドア」を最大限に活用する方法を学びましょう！"
-              : lang === "mm"
-                ? "doa ကို အကောင်းဆုံး အသုံးချနည်းကို လေ့လာပါ။ သင်၏ အရည်အချင်းများကို မြှင့်တင်ရန် အကြံပြုချက်များကို လေ့လာပါ။"
-                : "Discover how to make the most out of doa! Learn tips and tricks to improve your skills."}
+            {section.text}
           </p>
           <button
             onClick={() => navigate(section.path)}
@@ -148,12 +142,10 @@ const GetStarted = () => {
   const navigate = useNavigate();
   const { toggleTheme, theme } = useTheme();
   const menuRef = useRef(null);
-
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-
   const { language = "en" } = useLanguage() || {};
 
   const t = {
@@ -163,12 +155,12 @@ const GetStarted = () => {
     user_manual: translations[language]?.user_manual || "user manual",
     about_team: translations[language]?.about_team || "about our team",
     use_app: translations[language]?.use_app || "use our app",
-    explore: translations[language]?.explore_now || "explore now",
-    s_speaking: translations[language]?.speaking || "speaking",
-    s_reading: translations[language]?.reading || "reading",
-    s_listening: translations[language]?.listening || "listening",
-    s_vocab: translations[language]?.vocabulary || "vocabulary",
-    s_grammar: translations[language]?.grammar || "grammar",
+    explore: translations[language]?.explore || "explore now",
+    s_speaking: translations[language]?.s_speaking || "speaking",
+    s_reading: translations[language]?.s_reading || "reading",
+    s_listening: translations[language]?.s_listening || "listening",
+    s_vocab: translations[language]?.s_vocab || "vocabulary",
+    s_grammar: translations[language]?.s_grammar || "grammar",
   };
 
   const navLinks = [
@@ -207,7 +199,6 @@ const GetStarted = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close user menu on outside click
   useEffect(() => {
     const closeMenu = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target))
@@ -217,7 +208,6 @@ const GetStarted = () => {
     return () => document.removeEventListener("mousedown", closeMenu);
   }, []);
 
-  // Close mobile drawer on resize
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) setDrawerOpen(false);
@@ -238,7 +228,7 @@ const GetStarted = () => {
 
   const AvatarComponent = ({ avatarId, size = "w-10 h-10" }) => (
     <div
-      className={`${size} rounded-full bg-primary flex items-center justify-center text-inverted font-black overflow-hidden shadow-inner`}
+      className={`${size} rounded-full flex items-center justify-center text-inverted font-black overflow-hidden shadow-inner`}
     >
       {avatarId ? (
         <img
@@ -266,7 +256,6 @@ const GetStarted = () => {
             style={{ width: `${scrollProgress}%` }}
           />
         </div>
-
         <nav className="h-[90px] px-6 md:px-20 flex items-center justify-between">
           <div
             className="flex items-center cursor-pointer group"
@@ -278,7 +267,6 @@ const GetStarted = () => {
               className="h-[70px] md:h-[80px] object-contain group-hover:scale-110 transition-transform"
             />
           </div>
-
           <div className="hidden md:flex items-center space-x-2">
             {navLinks.map((nav, i) => (
               <button
@@ -297,20 +285,19 @@ const GetStarted = () => {
             >
               {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-
             {!isAuthenticated ? (
               <div className="flex items-center gap-2 ml-4">
                 <Link
                   to="/login"
                   className="px-4 py-2 text-sm font-bold text-text hover:text-primary transition-colors"
                 >
-                  login
+                  {translations[language].login}
                 </Link>
                 <Link
                   to="/register"
                   className="px-6 py-2.5 bg-primary text-inverted rounded-full font-bold transition-all hover:shadow-lg active:scale-95"
                 >
-                  register
+                  {translations[language].register}
                 </Link>
               </div>
             ) : (
@@ -329,7 +316,7 @@ const GetStarted = () => {
                   <div className="absolute right-0 mt-3 w-56 bg-surface border border-border rounded-2xl shadow-2xl py-2 z-[1500] animate-in fade-in zoom-in-95 duration-200">
                     <div className="px-4 py-3 border-b border-border/50 mb-1">
                       <p className="text-[10px] font-black text-text/30 tracking-[0.2em]">
-                        account
+                        {translations[language].name}
                       </p>
                       <p className="text-sm font-bold text-text truncate">
                         {user?.name}
@@ -339,28 +326,29 @@ const GetStarted = () => {
                       to="/dashboard"
                       className="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-text hover:bg-primary/10 hover:text-primary transition-colors"
                     >
-                      <LayoutDashboard size={16} /> dashboard
+                      <LayoutDashboard size={16} />{" "}
+                      {translations[language].dashboard || "Dashboard"}
                     </Link>
                     {user?.role === ROLES.ADMIN && (
                       <Link
                         to="/admin"
                         className="flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-text hover:bg-primary/10 hover:text-primary transition-colors"
                       >
-                        <Settings size={16} /> admin console
+                        <Settings size={16} />{" "}
+                        {translations[language].console || "Admin Console"}
                       </Link>
                     )}
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-bold text-error hover:bg-error/10 transition-colors mt-1"
                     >
-                      <LogOut size={16} /> logout
+                      <LogOut size={16} /> {translations[language].logout}
                     </button>
                   </div>
                 )}
               </div>
             )}
           </div>
-
           <button
             className="md:hidden p-2 text-text"
             onClick={() => setDrawerOpen(true)}
@@ -378,7 +366,6 @@ const GetStarted = () => {
             className="fixed inset-0 bg-black/60 z-[1300] backdrop-blur-sm animate-in fade-in duration-300"
             onClick={() => setDrawerOpen(false)}
           />
-
           {/* Drawer Panel */}
           <div className="fixed right-0 top-0 h-full w-[85%] max-w-[320px] bg-surface z-[1400] shadow-2xl animate-in slide-in-from-right duration-500 flex flex-col">
             {/* Drawer Header */}
@@ -395,7 +382,6 @@ const GetStarted = () => {
                 <X size={24} />
               </button>
             </div>
-
             {/* Auth Profile Section */}
             <div className="p-6 bg-primary/5">
               {isAuthenticated ? (
@@ -417,19 +403,18 @@ const GetStarted = () => {
                     onClick={() => setDrawerOpen(false)}
                     className="py-3 text-center text-xs font-black border border-border rounded-xl text-text hover:bg-surface transition-colors"
                   >
-                    login
+                    {translations[language].login}
                   </Link>
                   <Link
                     to="/register"
                     onClick={() => setDrawerOpen(false)}
                     className="py-3 text-center text-xs font-black bg-primary text-inverted rounded-xl hover:opacity-90 transition-opacity"
                   >
-                    register
+                    {translations[language].register}
                   </Link>
                 </div>
               )}
             </div>
-
             {/* Navigation Links */}
             <div className="flex-1 overflow-y-auto p-6 space-y-2">
               <p className="text-xs font-black text-text/30 tracking-[0.2em] mb-4 uppercase">
@@ -445,20 +430,29 @@ const GetStarted = () => {
                   <ChevronDown className="-rotate-90 text-text/20" size={20} />
                 </button>
               ))}
+              {isAuthenticated && (
+                <Link
+                  to="/dashboard"
+                  onClick={() => setDrawerOpen(false)}
+                  className="w-full text-left py-4 text-xl sm:text-2xl font-black text-text flex justify-between items-center tracking-tighter hover:text-primary transition-colors"
+                >
+                  {translations[language].dashboard || "Dashbaord"}{" "}
+                  <LayoutDashboard size={20} className="text-text/20" />
+                </Link>
+              )}
               {isAuthenticated && user?.role === ROLES.ADMIN && (
                 <Link
                   to="/admin"
                   onClick={() => setDrawerOpen(false)}
                   className="w-full text-left py-4 text-xl sm:text-2xl font-black text-text flex justify-between items-center tracking-tighter hover:text-primary transition-colors"
                 >
-                  admin console <Settings size={20} className="text-text/20" />
+                  {translations[language].console || "Admin Console"}{" "}
+                  <Settings size={20} className="text-text/20" />
                 </Link>
               )}
             </div>
-
-            {/* Settings & Socials (The missing part) */}
+            {/* Settings & Socials */}
             <div className="p-6 border-t border-border space-y-6 bg-background/50">
-              {/* Toggles Row */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <LanguageToggler />
@@ -473,8 +467,6 @@ const GetStarted = () => {
                   </span>
                 </button>
               </div>
-
-              {/* Social Icons */}
               <div className="flex justify-around items-center pt-2">
                 {socials.map((s, i) => {
                   const Icon = s.icon;
@@ -491,14 +483,12 @@ const GetStarted = () => {
                   );
                 })}
               </div>
-
-              {/* Logout Action */}
               {isAuthenticated && (
                 <button
                   onClick={handleLogout}
                   className="w-full flex items-center justify-center gap-3 p-4 font-black text-error bg-error/5 rounded-2xl hover:bg-error/10 transition-colors border border-error/10"
                 >
-                  <LogOut size={18} /> logout
+                  <LogOut size={18} /> {translations[language].logout}
                 </button>
               )}
             </div>
@@ -510,9 +500,9 @@ const GetStarted = () => {
       <section className="relative min-h-[100svh] px-4 sm:px-6 md:px-20 pt-24 pb-12 flex items-center">
         <div className="z-10 w-full md:w-2/3">
           <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-text leading-tight">
-            upgrade your japanese
+            Upgrade your japanese
           </h1>
-          <div className="mt-4 text-primary text-4xl sm:text-5xl md:text-[7rem] font-black leading-[0.95] min-h-[1.2em] tracking-tighter">
+          <div className="mt-4 text-primary text-[4rem] md:text-[7rem] font-black leading-[0.95] min-h-[1.2em] tracking-tighter">
             <TypewriterSkill skills={skills} />
           </div>
           <button
@@ -527,8 +517,10 @@ const GetStarted = () => {
         <div className="absolute top-0 right-0 w-full h-full opacity-10 md:opacity-30 pointer-events-none">
           <img
             src="/assets/world-d.svg"
-            className="w-full h-full object-contain mt-24 [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)]"
-            alt=""
+            className="w-full h-full mt-10 md:mt-24
+                       object-cover object-right md:object-contain
+                       [mask-image:linear-gradient(to_bottom,black_0%,transparent_100%)]"
+            alt="Background World Map"
           />
         </div>
       </section>
@@ -542,6 +534,7 @@ const GetStarted = () => {
           img: "/assets/manual.svg",
           color: "text-primary",
           path: "/coming-soon",
+          text: translations[language].how_to_use,
         },
         {
           id: "about",
@@ -550,6 +543,7 @@ const GetStarted = () => {
           img: "/assets/about.svg",
           color: "text-primary",
           path: "/coming-soon",
+          text: translations[language].about_doa,
         },
         {
           id: "apps",
@@ -558,6 +552,7 @@ const GetStarted = () => {
           img: "/assets/apps.svg",
           color: "text-primary",
           path: "/coming-soon",
+          text: translations[language].application_txt,
         },
       ].map((section) => (
         <AnimatedSection
@@ -590,8 +585,8 @@ const GetStarted = () => {
         <p className="text-text font-black text-lg sm:text-xl mb-4">
           Upgrade Japanese With ドア
         </p>
-        <p className="text-xs text-text/30 font-bold tracking-[0.3em] sm:tracking-[0.5em]">
-          &copy; {new Date().getFullYear()} — doa
+        <p className="text-xs text-text/30 font-bold">
+          &copy; {new Date().getFullYear()} — DOA
         </p>
       </footer>
     </div>
